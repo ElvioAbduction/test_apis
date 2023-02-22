@@ -1,25 +1,46 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import SwapiList from './components/SwapiList';
+/*import SearchBox from '../components/SearchBox';*/
 import './App.css';
+/*import Scroll from '../components/Scroll';*/
 
-function App() {
+
+class App extends Component {
+  
+  constructor() {
+    super();
+  
+    this.state = {
+      people: [],
+    };
+  }
+
+  componentDidMount(){
+    fetch('https://swapi.dev/api/people/?format=json')
+    .then(response => {
+      return response.json();
+    })
+    .then (swPeople => {
+      this.setState({ people: swPeople.results })
+    });
+  }
+
+  /*onSearchChange = (event) =>{
+    this.setState({ searchField: event.target.value })
+    
+  }*/
+
+  render(){
+    var listPeople = this.state.people;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="tc">
+      <h1>STAR WARS PEOPLE</h1>
+      <SwapiList swPeople={ listPeople } />
+      
     </div>
-  );
+    );
+  }
 }
+
 
 export default App;
